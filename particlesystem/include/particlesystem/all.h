@@ -1,11 +1,7 @@
 #pragma once
 
 /**
- * @file all.h
- * @brief Main include file for the particle system library
- * 
- * This file includes all the necessary components of the particle system,
- * organized by category. Use this single include to access the full functionality.
+ Include all the components of the particle system
  */
 
 // Core components

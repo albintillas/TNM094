@@ -5,68 +5,50 @@
 namespace particlesystem {
 
 /**
- * @brief Base class for all particle effects.
- * 
- * An effect modifies the behavior of particles in the system.
- * This abstract base class provides common functionality for all effect types,
- * including strength and enable/disable state. Derived classes implement
- * specific modification behaviors.
+ * Base class for all particle effects.
+ * Modifies the behavior of particles in the system.
+ * Derived classes implement specific behaviors.
  */
 class Effect {
 public:
     /**
-     * @brief Constructs an effect with default settings.
-     * 
-     * Creates an effect with a strength of 1.0 that is enabled by default.
+     * Creates an effect with default settings.
+     * Strength of 1.0 and enabled by default.
      */
     Effect();
     virtual ~Effect() = default;
     
     /**
-     * @brief Sets the strength of the effect.
-     * 
-     * The strength parameter controls how strongly the effect influences particles.
-     * 
-     * @param strength The effect strength (typically in range [0,1])
+     * Sets the strength of the effect.
+     * Controls how strongly the effect influences particles.
      */
     void setStrength(float strength);
     
     /**
-     * @brief Gets the current strength of the effect.
-     * 
-     * @return The effect strength value
+     * Gets the current strength of the effect.
      */
     float getStrength() const;
     
     /**
-     * @brief Enables or disables the effect.
-     * 
-     * A disabled effect will not be applied to particles during simulation.
-     * 
-     * @param enabled True to enable the effect, false to disable
+     * Enables or disables the effect.
+     * Disabled effects won't be applied during simulation.
      */
     void setEnabled(bool enabled);
     
     /**
-     * @brief Checks if the effect is currently enabled.
-     * 
-     * @return True if the effect is enabled, false otherwise
+     * Checks if the effect is currently enabled.
      */
     bool isEnabled() const;
     
     /**
-     * @brief Applies the effect to a particle.
-     * 
-     * This pure virtual method must be implemented by derived classes
-     * to define the specific effect behavior.
-     * 
-     * @param particle The particle to modify
+     * Applies the effect to a particle.
+     * Must be implemented by derived classes.
      */
     virtual void apply(Particle& particle) = 0;
 
 protected:
-    float strength_;  ///< Strength of the effect
-    bool enabled_;    ///< Whether the effect is currently enabled
+    float strength_;  // Strength of the effect
+    bool enabled_;    // Whether the effect is currently enabled
 };
 
 } // namespace particlesystem 

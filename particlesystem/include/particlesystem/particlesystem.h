@@ -11,99 +11,78 @@
 namespace particlesystem {
 
 /**
- * @brief The central class managing particles, emitters, and effects.
- * 
- * The ParticleSystem coordinates all aspects of the particle simulation.
- * It manages collections of particles, emitters that create particles, 
- * and effects that modify particle behavior.
+ * Central class managing particles, emitters, and effects.
+ * Coordinates all aspects of the particle simulation.
  */
 class ParticleSystem {
 public:
     /**
-     * @brief Constructs an empty particle system.
+     * Creates an empty particle system.
      */
     ParticleSystem();
     ~ParticleSystem() = default;
     
     /**
-     * @brief Updates the particle system for one time step.
-     * 
-     * @param dt Time step in seconds
+     * Updates the particle system for one time step.
+     * dt: Time step in seconds
      */
     void update(float dt);
     
     /**
-     * @brief Adds an emitter to the system.
-     * 
-     * @param emitter Shared pointer to the emitter
+     * Adds an emitter to the system.
      */
     void addEmitter(std::shared_ptr<Emitter> emitter);
     
     /**
-     * @brief Removes an emitter from the system.
-     * 
-     * @param emitter Shared pointer to the emitter to remove
+     * Removes an emitter from the system.
      */
     void removeEmitter(std::shared_ptr<Emitter> emitter);
     
     /**
-     * @brief Adds an effect to the system.
-     * 
-     * @param effect Shared pointer to the effect
+     * Adds an effect to the system.
      */
     void addEffect(std::shared_ptr<Effect> effect);
     
     /**
-     * @brief Removes an effect from the system.
-     * 
-     * @param effect Shared pointer to the effect to remove
+     * Removes an effect from the system.
      */
     void removeEffect(std::shared_ptr<Effect> effect);
     
     /**
-     * @brief Gets read-only access to the particles.
-     * 
-     * @return Const reference to the particles vector
+     * Gets read-only access to the particles.
+     * Returns const reference to the particles vector.
      */
     const std::vector<Particle>& getParticles() const;
     
     /**
-     * @brief Updates the particles in the system.
-     * 
-     * This is mainly used for external boundary handling.
-     * 
-     * @param particles New set of particles to replace the current ones
+     * Updates the particles in the system.
+     * Mainly used for external boundary handling.
      */
     void setParticles(const std::vector<Particle>& particles);
     
     /**
-     * @brief Helper method to get particle data for rendering.
-     * 
-     * @param positions Output vector of particle positions
-     * @param colors Output vector of particle colors
-     * @param sizes Output vector of particle sizes
+     * Gets particle data for rendering.
+     * Fills the provided vectors with position, color and size data.
      */
     void getParticleData(std::vector<glm::vec2>& positions, std::vector<glm::vec4>& colors, std::vector<float>& sizes) const;
     
     /**
-     * @brief Pre-allocate capacity for particles.
-     * 
-     * @param capacity Number of particles to allocate space for
+     * Pre-allocate capacity for particles.
      */
     void reserve(size_t capacity);
     
     /**
-     * @brief Removes all particles from the system.
+     * Removes all particles from the system.
      */
     void clearParticles();
     
     /**
-     * @brief Removes all emitters from the system.
+     * Removes all emitters from the system.
      */
     void clearEmitters();
     
     /**
-     * @brief Removes all effects from the system.
+     * Removes all effects from the system.
      */
     void clearEffects();
 
