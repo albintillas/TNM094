@@ -2,6 +2,7 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <particlesystem/all.h>
 #include <memory>
+#include <glm/geometric.hpp>
 
 using namespace Catch::Matchers;
 

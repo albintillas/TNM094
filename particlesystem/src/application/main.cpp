@@ -4,7 +4,7 @@
 
 #include <fmt/format.h>
 #include <imgui.h>
-
+#include <iostream>
 #include <cmath>
 #include <vector>
 #include <random>
@@ -18,16 +18,17 @@ int main() try {
 
     // Create our new particle demo system
     example::ParticleDemo particleDemo;
-    
+
     // Keep the old system for comparison
     const size_t numParticles = 1000;
+    std::cout << "[UPDATE] " << __FUNCTION__ << " at line " << __LINE__ << std::endl; // Task 6 test print
     example::RandomSystem randomSystem{numParticles};
-    
+
     float speed = 1.0f;
     bool running = true;
-    bool useNewSystem = true;  // Toggle between old and new system
+    bool useNewSystem = true;    // Toggle between old and new system
     bool prevMouseDown = false;  // Track previous mouse state
-    
+
     // Mouse click handling variables
     bool mouseButtonClicked = false;
 
@@ -36,20 +37,21 @@ int main() try {
 
         // Get mouse position and convert to normalized coordinates (-1 to 1)
         auto mousePos = window.mousePosition();
-        glm::vec2 normalizedMousePos = glm::vec2(
-            (mousePos.x / window.width()) * 2.0f - 1.0f,
-            -((mousePos.y / window.height()) * 2.0f - 1.0f)  // Flip Y since window coordinates are top-down
-        );
-        
+        glm::vec2 normalizedMousePos =
+            glm::vec2((mousePos.x / window.width()) * 2.0f - 1.0f,
+                      -((mousePos.y / window.height()) * 2.0f -
+                        1.0f)  // Flip Y since window coordinates are top-down
+            );
+
         // Manual mouse click detection using ImGui
         bool mouseDown = ImGui::GetIO().MouseDown[0];  // 0 = left mouse button
-        
+
         // Handle mouse click (on press, not hold)
         if (mouseDown && !prevMouseDown && useNewSystem && !ImGui::IsAnyItemHovered()) {
             particleDemo.handleMouseClick(normalizedMousePos);
         }
         prevMouseDown = mouseDown;
-        
+
         if (useNewSystem) {
             // Update our new particle demo
             particleDemo.update(window.time(), window.deltaTime() * speed, normalizedMousePos);
@@ -64,36 +66,41 @@ int main() try {
         // Draw particles
         if (useNewSystem) {
             // Draw the particles
-            window.drawPoints(particleDemo.getPositions(), particleDemo.getSizes(), particleDemo.getColors());
-            
+            window.drawPoints(particleDemo.getPositions(), particleDemo.getSizes(),
+                              particleDemo.getColors());
+
             // Draw markers for emitters and effects
-            window.drawPoints(particleDemo.getMarkerPositions(), particleDemo.getMarkerSizes(), particleDemo.getMarkerColors());
+            window.drawPoints(particleDemo.getMarkerPositions(), particleDemo.getMarkerSizes(),
+                              particleDemo.getMarkerColors());
         } else {
-            window.drawPoints(randomSystem.getPosition(), randomSystem.getSize(), randomSystem.getColor());
+            window.drawPoints(randomSystem.getPosition(), randomSystem.getSize(),
+                              randomSystem.getColor());
         }
 
         // User interface
         {
             window.beginGuiWindow("Particle System Controls");
-            
+
             if (useNewSystem) {
                 // UI for the new particle system
                 particleDemo.renderUI();
-                
+
                 window.separator();
             }
-            
+
             window.text("Simulation Controls");
             window.sliderFloat("Simulation Speed", speed, 0.001f, 10.0f);
-            
-            if (window.button(useNewSystem ? "Switch to Original System" : "Switch to New Particle System")) {
+
+            if (window.button(useNewSystem ? "Switch to Original System"
+                                           : "Switch to New Particle System")) {
                 useNewSystem = !useNewSystem;
             }
-            
+
             window.separator();
             window.text(fmt::format("FPS: {:.1f}", window.fps()));
-            window.text(fmt::format("Mouse: ({:.2f}, {:.2f})", normalizedMousePos.x, normalizedMousePos.y));
-            
+            window.text(
+                fmt::format("Mouse: ({:.2f}, {:.2f})", normalizedMousePos.x, normalizedMousePos.y));
+
             if (window.button("Close Application")) {
                 running = false;
             }
